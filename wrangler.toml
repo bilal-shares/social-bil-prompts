@@ -1,0 +1,9 @@
+name = "bilal-prompt"
+pages_build_output_dir = "./out"
+compatibility_date = "2026-06-06"
+
+[vars]
+GITHUB_OWNER = "bilal-shares"
+GITHUB_REPO = "social-bil-prompts"
+GITHUB_BRANCH = "main"
+

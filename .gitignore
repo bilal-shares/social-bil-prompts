@@ -1,0 +1,23 @@
+# dependencies
+/node_modules
+
+# Next.js
+/.next
+/out
+
+# Cloudflare
+/.wrangler
+
+# local environment variables
+.env*
+.dev.vars*
+!.env.example
+!.dev.vars.example
+
+# logs and editor files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+*.tsbuildinfo
+
