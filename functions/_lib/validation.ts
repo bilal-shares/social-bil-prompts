@@ -132,37 +132,27 @@ function getWebpDimensions(
 
 export async function validateWebpImage(file: File): Promise<ArrayBuffer> {
   const maxSize = 3 * 1024 * 1024;
+
   if (file.size < 20 || file.size > maxSize) {
     throw new InputValidationError(
       "The optimized image must be between 20 bytes and 3 MB.",
     );
   }
 
+  const allowedTypes = [
+    "image/webp",
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    throw new InputValidationError(
+      "Only WEBP, JPG, JPEG and PNG images are allowed.",
+    );
+  }
+
   const bytes = new Uint8Array(await file.arrayBuffer());
-  const isWebp =
-    String.fromCharCode(...bytes.slice(0, 4)) === "RIFF" &&
-    String.fromCharCode(...bytes.slice(8, 12)) === "WEBP";
-
-  if (!isWebp) {
-    throw new InputValidationError(
-      "The uploaded image is not a valid WEBP file.",
-    );
-  }
-
-  const dimensions = getWebpDimensions(bytes);
-  if (!dimensions || dimensions.width < 64 || dimensions.height < 64) {
-    throw new InputValidationError(
-      "The image dimensions could not be validated.",
-    );
-  }
-
-  if (
-    dimensions.width > 5000 ||
-    dimensions.height > 5000 ||
-    dimensions.width * dimensions.height > 25_000_000
-  ) {
-    throw new InputValidationError("The image dimensions are too large.");
-  }
 
   return bytes.buffer.slice(
     bytes.byteOffset,
